@@ -20,7 +20,7 @@ import uk.veasmkii.entity.EntityFactory;
 import uk.veasmkii.systems.ExpirySystem;
 import uk.veasmkii.systems.VelocitySystem;
 import uk.veasmkii.systems.grid.CoordinatePositioningSystem;
-import uk.veasmkii.systems.grid.CoordinateSystem;
+import uk.veasmkii.systems.grid.MovementSystem;
 import uk.veasmkii.systems.input.InputSystem;
 import uk.veasmkii.systems.renderable.AnimationSystem;
 import uk.veasmkii.systems.renderable.DrawableSystem;
@@ -56,7 +56,7 @@ public class Play extends BasicGameState {
 		world.setSystem( new ExpirySystem( container ) );
 		world.setSystem( new AnimationSystem( container ) );
 		world.setSystem( new CoordinatePositioningSystem( container ) );
-		world.setSystem( new CoordinateSystem( container ) );
+		world.setSystem( new MovementSystem( container ) );
 		world.setSystem( new InputSystem( container ) );
 		world.setSystem( new VelocitySystem( container ) );
 

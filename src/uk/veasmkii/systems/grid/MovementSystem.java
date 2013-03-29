@@ -15,13 +15,13 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 
-public class CoordinateSystem extends TickSystem {
+public class MovementSystem extends TickSystem {
 
 	@Mapper private ComponentMapper<Coordinate> cm;
 	@Mapper private ComponentMapper<Movement> mm;
 
 	@SuppressWarnings( "unchecked" )
-	public CoordinateSystem( final GameContainer container ) {
+	public MovementSystem( final GameContainer container ) {
 		super( container, Aspect.getAspectForAll( Coordinate.class,
 				Movement.class ) );
 	}
