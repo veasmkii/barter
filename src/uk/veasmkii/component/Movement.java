@@ -17,6 +17,10 @@ public class Movement extends Component {
 		this.amount += amount;
 	}
 
+	public boolean isExpired() {
+		return expiry.isExpired();
+	}
+
 	@Override
 	public String toString() {
 		return String.valueOf( direction );
