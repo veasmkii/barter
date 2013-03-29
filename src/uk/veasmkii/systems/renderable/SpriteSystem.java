@@ -72,6 +72,10 @@ public class SpriteSystem extends TickSystem {
 					.getWidth() ) / 2 ) );
 			final float titleY = ( ( position.getY() - ( size.getHeight() / 2 ) - 5 ) + fontHeight );
 
+			g.setColor( Color.black );
+			g.drawString( title.getName(), titleX - 1, titleY - 1 );
+			g.drawString( title.getName(), titleX + 1, titleY + 1 );
+
 			g.setColor( title.getColor() );
 			g.drawString( title.getName(), titleX, titleY );
 		}
