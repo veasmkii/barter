@@ -13,6 +13,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import uk.veasmkii.component.Coordinate;
+import uk.veasmkii.component.Health;
 import uk.veasmkii.component.Tile;
 import uk.veasmkii.component.Tile.Biome;
 import uk.veasmkii.component.Title;
@@ -69,6 +70,7 @@ public class Play extends BasicGameState {
 		world.getSystem( CoordinatePositioningSystem.class ).setTiles(
 				createMap() );
 		createRandomPlayers();
+		createYou();
 	}
 
 	private Entity[][] createMap() {
@@ -109,6 +111,18 @@ public class Play extends BasicGameState {
 					sprite.addToWorld();
 
 				}
+	}
+
+	private void createYou() {
+		final Entity sprite = EntityFactory.createPlayer( world,
+				"res/sprite/germania.png" );
+
+		sprite.getComponent( Coordinate.class ).setCoordinates( 5, 5 );
+		sprite.getComponent( Title.class ).setName( "You" );
+		sprite.getComponent( Health.class ).setHealth( 30 );
+		sprite.getComponent( Health.class ).setMaximumHealth( 100 );
+
+		sprite.addToWorld();
 	}
 
 	@Override

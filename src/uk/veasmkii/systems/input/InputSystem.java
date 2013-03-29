@@ -12,7 +12,6 @@ import uk.veasmkii.component.Movement.Direction;
 import uk.veasmkii.component.Player;
 import uk.veasmkii.component.Position;
 import uk.veasmkii.component.Size;
-import uk.veasmkii.component.Title;
 import uk.veasmkii.component.Velocity;
 import uk.veasmkii.entity.EntityFactory;
 import uk.veasmkii.systems.TickSystem;
@@ -37,48 +36,15 @@ public class InputSystem extends TickSystem {
 	}
 
 	@Override
-	protected void initialize() {
-		mockPlayer();
-	}
-
-	private void mockPlayer() {
-		final Entity sprite = EntityFactory.createPlayer( world,
-				"res/sprite/germania.png" );
-
-		sprite.getComponent( Coordinate.class ).setCoordinates( 5, 5 );
-		sprite.getComponent( Title.class ).setName( "You" );
-		sprite.getComponent( Health.class ).setHealth( 30 );
-		sprite.getComponent( Health.class ).setMaximumHealth( 100 );
-
-		sprite.addToWorld();
-		added( sprite );
-	}
-
-	@Override
 	public void process( final GameContainer container, final Entity e ) {
 		final Movement movement = dm.get( e );
 		final Coordinate coordinate = cm.get( e );
 
 		final Input input = container.getInput();
 
-		handleMovement( input, movement );
-		handleAttack( input, coordinate );
+		handleKeys( input, coordinate, movement );
+
 		expiry.reduceDuration( world.getDelta() );
-	}
-
-	// FIXME prevent direction changing until movement is expired
-	private void handleMovement( final Input input, final Movement movement ) {
-		final boolean north = input.isKeyDown( Input.KEY_UP );
-		final boolean east = input.isKeyDown( Input.KEY_RIGHT );
-		final boolean south = input.isKeyDown( Input.KEY_DOWN );
-		final boolean west = input.isKeyDown( Input.KEY_LEFT );
-
-		final boolean directionHeld = north || east || south || west;
-
-		final Direction direction = getDirection( north, east, south, west );
-		if ( direction != null )
-			movement.setDirection( direction );
-		movement.setAmount( directionHeld ? 1 : 0 );
 	}
 
 	private Direction getDirection( final boolean north, final boolean east,
@@ -104,22 +70,46 @@ public class InputSystem extends TickSystem {
 
 	private final Expiry expiry = new Expiry();
 
-	private void handleAttack( final Input input, final Coordinate coordinate ) {
+	private void handleKeys( final Input input, final Coordinate coordinate,
+			final Movement movement ) {
 
-		if ( input.isKeyDown( Input.KEY_SPACE ) && expiry.isExpired() ) {
-			expiry.setDuration( 500 );
+		handleMovement( input, movement );
+
+		// Bullet
+		if ( input.isKeyDown( Input.KEY_1 ) ) {
 			final Entity entity = EntityFactory.createBullet( world );
 			entity.getComponent( Velocity.class ).setVelocity( 0.250F, 0.250F );
 			entity.addToWorld();
+		}
+
+		// Damage
+		if ( input.isKeyDown( Input.KEY_D ) && expiry.isExpired() ) {
+			expiry.setDuration( 500 );
 			world.getManager( TagManager.class ).getEntity( "You" )
 					.getComponent( Health.class ).addHealth( -10 );
 		}
 
+		// Heal
 		if ( input.isKeyDown( Input.KEY_H ) && expiry.isExpired() ) {
 			expiry.setDuration( 500 );
 			world.getManager( TagManager.class ).getEntity( "You" )
 					.getComponent( Health.class ).addHealth( +10 );
 		}
 
+	}
+
+	// FIXME prevent direction changing until movement is expired
+	private void handleMovement( final Input input, final Movement movement ) {
+		final boolean north = input.isKeyDown( Input.KEY_UP );
+		final boolean east = input.isKeyDown( Input.KEY_RIGHT );
+		final boolean south = input.isKeyDown( Input.KEY_DOWN );
+		final boolean west = input.isKeyDown( Input.KEY_LEFT );
+
+		final boolean directionHeld = north || east || south || west;
+
+		final Direction direction = getDirection( north, east, south, west );
+		if ( direction != null )
+			movement.setDirection( direction );
+		movement.setAmount( directionHeld ? 1 : 0 );
 	}
 }
