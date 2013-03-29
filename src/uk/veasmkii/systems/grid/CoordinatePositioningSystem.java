@@ -43,8 +43,8 @@ public class CoordinatePositioningSystem extends TickSystem {
 
 	@Override
 	public void process( final GameContainer container, final Entity e ) {
-		final int centerX = ( container.getWidth() / 2 - calculateTotalWidth() ) / 2;
-		final int centerY = ( container.getHeight() - calculateTotalHeight() );
+		final int centerX = ( container.getWidth() - calculateTotalWidth() ) / 2;
+		final int centerY = (int) ( ( container.getHeight() - calculateTotalHeight() ) / 2 );
 
 		final Position position = pm.get( e );
 		final Coordinate coordinate = cm.get( e );
@@ -54,8 +54,8 @@ public class CoordinatePositioningSystem extends TickSystem {
 		final Point desiredPoint = ( isIsometric() ) ? createIsometric(
 				coordinate, size ) : createGrid( coordinate, size );
 
-		desiredPoint.setX( desiredPoint.getX() - centerX );
-		desiredPoint.setY( desiredPoint.getY() + centerY / 2 );
+		desiredPoint.setX( desiredPoint.getX() + centerX );
+		desiredPoint.setY( desiredPoint.getY() + centerY );
 
 		if ( ( movement != null ) && !movement.getExpiry().isExpired() )
 			moveTowardsPositon( movement.getExpiry(), position, desiredPoint );
@@ -114,8 +114,7 @@ public class CoordinatePositioningSystem extends TickSystem {
 	}
 
 	private Point createGrid( final Coordinate coordinate, final Size size ) {
-		final int x = ( tileWidth * coordinate.getX() )
-				- ( size.getWidth() / 2 );
+		final int x = ( tileWidth * coordinate.getX() ) - ( size.getWidth() );
 		final int y = ( tileHeight * coordinate.getY() ) - ( size.getHeight() );
 		return new Point( x, y );
 	}
