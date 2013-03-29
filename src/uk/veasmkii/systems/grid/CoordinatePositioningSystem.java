@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Point;
 
 import uk.veasmkii.component.Coordinate;
+import uk.veasmkii.component.Expiry;
 import uk.veasmkii.component.Movement;
 import uk.veasmkii.component.Position;
 import uk.veasmkii.component.Size;
@@ -56,7 +57,7 @@ public class CoordinatePositioningSystem extends TickSystem {
 		desiredPoint.setY( desiredPoint.getY() + centerY / 2 );
 
 		if ( ( movement != null ) && !movement.getExpiry().isExpired() )
-			moveTowardsPositon( position, desiredPoint );
+			moveTowardsPositon( movement.getExpiry(), position, desiredPoint );
 		else
 			position.setPosition( desiredPoint.getX(), desiredPoint.getY() );
 
@@ -70,19 +71,21 @@ public class CoordinatePositioningSystem extends TickSystem {
 		return tiles.length * Tile.TILE_HEIGHT;
 	}
 
-	// FIXME Needs to move to desired location under time
-	private void moveTowardsPositon( final Position position,
-			final Point desiredPoint ) {
+	private void moveTowardsPositon( final Expiry expiry,
+			final Position position, final Point desiredPoint ) {
 
-		if ( position.getX() < desiredPoint.getX() )
-			position.addX( 1 + world.getDelta() * .6F);
-		else if ( position.getX() > desiredPoint.getX() )
-			position.addX( -1 * 3 );
+		final float duration = expiry.getDurationDelta();
 
-		if ( position.getY() < desiredPoint.getY() )
-			position.addY( 1 * 3 );
-		else if ( position.getY() > desiredPoint.getY() )
-			position.addY( -1 * 3 );
+		if ( position.getX() != desiredPoint.getX() ) {
+			final float distanceX = position.getX() - desiredPoint.getX();
+			final float movementX = ( distanceX / duration ) * world.getDelta();
+			position.addX( -movementX );
+		}
+		if ( position.getY() != desiredPoint.getY() ) {
+			final float distanceY = position.getY() - desiredPoint.getY();
+			final float movementY = ( distanceY / duration ) * world.getDelta();
+			position.addY( -movementY );
+		}
 
 		position.setPosition( position.getX(), position.getY() );
 	}
