@@ -35,7 +35,7 @@ import com.artemis.managers.TagManager;
 //TODO Create 'concrete' builders for each entity type?
 public class EntityFactory {
 
-	public static Entity createBullet( final World world ) {
+	public static Entity createPolygon( final World world ) {
 		final Entity entity = world.createEntity();
 
 		entity.addComponent( new Velocity() );
@@ -111,8 +111,8 @@ public class EntityFactory {
 
 	public static Entity createParticle( final World world, final Image image ) {
 		final Entity entity = world.createEntity();
-		new ParticleSystem( image, 1000 );
-		// entity.addComponent( component )
+		final ParticleSystem system = new ParticleSystem( image, 1000 );
+//		 entity.addComponent( new Spart )
 		return entity;
 	}
 
