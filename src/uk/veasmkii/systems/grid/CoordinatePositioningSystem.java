@@ -32,6 +32,7 @@ public class CoordinatePositioningSystem extends TickSystem {
 	@Getter @Setter private int tileWidth = Tile.TILE_WIDTH,
 			tileHeight = Tile.TILE_HEIGHT;
 
+	// FIXME enforce equal column & row lengths
 	@Getter @Setter private Entity[][] tiles;
 
 	@SuppressWarnings( "unchecked" )
@@ -68,7 +69,7 @@ public class CoordinatePositioningSystem extends TickSystem {
 	}
 
 	private int calculateTotalHeight() {
-		return tiles.length * Tile.TILE_HEIGHT;
+		return tiles[0].length * Tile.TILE_HEIGHT;
 	}
 
 	private void moveTowardsPositon( final Expiry expiry,
