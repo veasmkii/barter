@@ -36,10 +36,14 @@ public class Health extends Component {
 				.valueOf( maximumHealth ) ) * 100 );
 	}
 
-	public void addDamage( final int damage ) {
-		health -= damage;
-		if ( health < 0 )
-			health = 0;
+	public void addHealth( final int health ) {
+		final int tempHealth = this.health + health;
+		if ( tempHealth > maximumHealth )
+			this.health = maximumHealth;
+		else if ( tempHealth < 0 )
+			this.health = 0;
+		else
+			this.health = tempHealth;
 	}
 
 	public void reset() {

@@ -8,8 +8,8 @@ import uk.veasmkii.component.Expiry;
 import uk.veasmkii.component.Health;
 import uk.veasmkii.component.Imageable;
 import uk.veasmkii.component.Movement;
-import uk.veasmkii.component.Player;
 import uk.veasmkii.component.Movement.Direction;
+import uk.veasmkii.component.Player;
 import uk.veasmkii.component.Position;
 import uk.veasmkii.component.Size;
 import uk.veasmkii.component.Title;
@@ -66,6 +66,7 @@ public class InputSystem extends TickSystem {
 		expiry.reduceDuration( world.getDelta() );
 	}
 
+	// FIXME prevent direction changing until movement is expired
 	private void handleMovement( final Input input, final Movement movement ) {
 		final boolean north = input.isKeyDown( Input.KEY_UP );
 		final boolean east = input.isKeyDown( Input.KEY_RIGHT );
@@ -111,7 +112,13 @@ public class InputSystem extends TickSystem {
 			entity.getComponent( Velocity.class ).setVelocity( 0.250F, 0.250F );
 			entity.addToWorld();
 			world.getManager( TagManager.class ).getEntity( "You" )
-					.getComponent( Health.class ).addDamage( 10 );
+					.getComponent( Health.class ).addHealth( -10 );
+		}
+
+		if ( input.isKeyDown( Input.KEY_H ) && expiry.isExpired() ) {
+			expiry.setDuration( 500 );
+			world.getManager( TagManager.class ).getEntity( "You" )
+					.getComponent( Health.class ).addHealth( +10 );
 		}
 
 	}
