@@ -90,7 +90,7 @@ public class EntityFactory {
 				.add( entity, Group.PLAYER.name() );
 		world.getManager( TagManager.class ).register( "You", entity );
 		entity.addComponent( new Player() );
-		entity.getComponent( Title.class ).setColor( Color.green );
+		entity.getComponent( Title.class ).setColor( Color.cyan );
 		return entity;
 	}
 
