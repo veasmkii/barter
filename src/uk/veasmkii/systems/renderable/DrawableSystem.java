@@ -18,10 +18,10 @@ import com.artemis.annotations.Mapper;
 
 public class DrawableSystem extends TickSystem {
 
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Velocity> vm;
-	@Mapper ComponentMapper<Drawable> dm;
-	@Mapper ComponentMapper<Expiry> em;
+	@Mapper private ComponentMapper<Position> pm;
+	@Mapper private ComponentMapper<Velocity> vm;
+	@Mapper private ComponentMapper<Drawable> dm;
+	@Mapper private ComponentMapper<Expiry> em;
 
 	@SuppressWarnings( "unchecked" )
 	public DrawableSystem( final GameContainer container ) {

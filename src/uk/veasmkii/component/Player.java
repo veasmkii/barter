@@ -1,4 +1,4 @@
-package uk.veasmkii.component.tag;
+package uk.veasmkii.component;
 
 import lombok.Getter;
 import lombok.Setter;

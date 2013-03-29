@@ -23,13 +23,13 @@ import com.artemis.annotations.Mapper;
 
 public class SpriteSystem extends TickSystem {
 
-	@Mapper ComponentMapper<Coordinate> cm;
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Size> sm;
-	@Mapper ComponentMapper<Imageable> im;
-	@Mapper ComponentMapper<Velocity> vm;
-	@Mapper ComponentMapper<Title> tm;
-	@Mapper ComponentMapper<Health> hm;
+	@Mapper private ComponentMapper<Coordinate> cm;
+	@Mapper private ComponentMapper<Position> pm;
+	@Mapper private ComponentMapper<Size> sm;
+	@Mapper private ComponentMapper<Imageable> im;
+	@Mapper private ComponentMapper<Velocity> vm;
+	@Mapper private ComponentMapper<Title> tm;
+	@Mapper private ComponentMapper<Health> hm;
 
 	@SuppressWarnings( "unchecked" )
 	public SpriteSystem( final GameContainer container ) {

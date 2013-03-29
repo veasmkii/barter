@@ -11,9 +11,8 @@ import uk.veasmkii.component.Coordinate;
 import uk.veasmkii.component.Movement;
 import uk.veasmkii.component.Position;
 import uk.veasmkii.component.Size;
+import uk.veasmkii.component.Tile;
 import uk.veasmkii.component.Velocity;
-import uk.veasmkii.component.tag.Tile;
-import uk.veasmkii.entity.EntityFactory;
 import uk.veasmkii.systems.TickSystem;
 
 import com.artemis.Aspect;
@@ -23,17 +22,16 @@ import com.artemis.annotations.Mapper;
 
 public class CoordinatePositioningSystem extends TickSystem {
 
-	@Mapper ComponentMapper<Coordinate> cm;
-	@Mapper ComponentMapper<Movement> mm;
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Velocity> vm;
-	@Mapper ComponentMapper<Size> sm;
+	@Mapper private ComponentMapper<Coordinate> cm;
+	@Mapper private ComponentMapper<Movement> mm;
+	@Mapper private ComponentMapper<Position> pm;
+	@Mapper private ComponentMapper<Velocity> vm;
+	@Mapper private ComponentMapper<Size> sm;
 
 	@Getter @Setter private int tileWidth = Tile.TILE_WIDTH,
 			tileHeight = Tile.TILE_HEIGHT;
 
-	@Getter @Setter private int offsetX = 0, offsetY = 0;
-	private Entity[][] tiles;
+	@Getter @Setter private Entity[][] tiles;
 
 	@SuppressWarnings( "unchecked" )
 	public CoordinatePositioningSystem( final GameContainer container ) {
@@ -41,24 +39,16 @@ public class CoordinatePositioningSystem extends TickSystem {
 				Position.class, Size.class ) );
 	}
 
-	@Override
-	protected void initialize() {
-		final int rows = 10, columns = 10;
-		tiles = new Entity[columns][rows];
-		for ( int x = 0; x < columns; x++ )
-			for ( int y = 0; y < rows; y++ ) {
-				final Entity tile = tiles[x][y] = EntityFactory
-						.createTile( world );
-				tile.getComponent( Coordinate.class ).setCoordinates( x, y );
-				tile.addToWorld();
-				added( tile );
-			}
+	private int calculateTotalWidth() {
+		return 0;
+	}
+
+	private int calculateTotalHeight() {
+		return 0;
 	}
 
 	@Override
 	public void process( final GameContainer container, final Entity e ) {
-		offsetX = ( container.getWidth() / 2 ) - totalWidthOfGrid();
-		offsetY = container.getHeight() / 2;
 
 		final Position position = pm.get( e );
 		final Coordinate coordinate = cm.get( e );
@@ -68,8 +58,8 @@ public class CoordinatePositioningSystem extends TickSystem {
 		final Point desiredPoint = ( isIsometric() ) ? createIsometric(
 				coordinate, size ) : createGrid( coordinate, size );
 
-		desiredPoint.setX( desiredPoint.getX() + ( offsetX * 2 ) );
-		desiredPoint.setY( desiredPoint.getY() + ( offsetY ) );
+		desiredPoint.setX( desiredPoint.getX() );
+		desiredPoint.setY( desiredPoint.getY() );
 
 		if ( ( movement != null ) && !movement.getExpiry().isExpired() )
 			moveTowardsPositon( position, desiredPoint );
@@ -94,11 +84,7 @@ public class CoordinatePositioningSystem extends TickSystem {
 		position.setPosition( position.getX(), position.getY() );
 	}
 
-	private int totalWidthOfGrid() {
-		return ( tileWidth * tiles.length ) / 2;
-	}
-
-	private Point createIsometric( final Coordinate coordinate, Size size ) {
+	private Point createIsometric( final Coordinate coordinate, final Size size ) {
 		final int x = ( ( coordinate.getX() * tileWidth ) / 2 )
 				+ ( ( coordinate.getY() * tileWidth ) / 2 );
 		final int y = ( ( coordinate.getY() * tileHeight ) / 2 )
@@ -107,9 +93,10 @@ public class CoordinatePositioningSystem extends TickSystem {
 				- ( size.getHeight() / 2 ) );
 	}
 
-	private Point createGrid( final Coordinate coordinate, Size size ) {
-		final int x = tileWidth * coordinate.getX() - ( size.getWidth() / 2 );
-		final int y = tileHeight * coordinate.getY() - ( size.getHeight() );
+	private Point createGrid( final Coordinate coordinate, final Size size ) {
+		final int x = ( tileWidth * coordinate.getX() )
+				- ( size.getWidth() / 2 );
+		final int y = ( tileHeight * coordinate.getY() ) - ( size.getHeight() );
 		return new Point( x, y );
 	}
 

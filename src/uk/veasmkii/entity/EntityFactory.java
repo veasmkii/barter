@@ -17,14 +17,14 @@ import uk.veasmkii.component.Expiry;
 import uk.veasmkii.component.Health;
 import uk.veasmkii.component.Imageable;
 import uk.veasmkii.component.Movement;
+import uk.veasmkii.component.Player;
 import uk.veasmkii.component.Position;
 import uk.veasmkii.component.Shapeable;
 import uk.veasmkii.component.Size;
 import uk.veasmkii.component.Sprite;
+import uk.veasmkii.component.Tile;
 import uk.veasmkii.component.Title;
 import uk.veasmkii.component.Velocity;
-import uk.veasmkii.component.tag.Player;
-import uk.veasmkii.component.tag.Tile;
 import uk.veasmkii.states.Play;
 
 import com.artemis.Entity;
@@ -32,6 +32,7 @@ import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 
+//TODO Create 'concrete' builders for each entity type?
 public class EntityFactory {
 
 	public static Entity createBullet( final World world ) {
@@ -87,7 +88,7 @@ public class EntityFactory {
 		final Entity entity = createSprite( world, image );
 		world.getManager( GroupManager.class )
 				.add( entity, Group.PLAYER.name() );
-		world.getManager( TagManager.class ).register( "HELENA", entity );
+		world.getManager( TagManager.class ).register( "You", entity );
 		entity.addComponent( new Player() );
 		entity.getComponent( Title.class ).setColor( Color.green );
 		return entity;

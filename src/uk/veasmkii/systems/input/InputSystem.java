@@ -8,12 +8,12 @@ import uk.veasmkii.component.Expiry;
 import uk.veasmkii.component.Health;
 import uk.veasmkii.component.Imageable;
 import uk.veasmkii.component.Movement;
+import uk.veasmkii.component.Player;
 import uk.veasmkii.component.Movement.Direction;
 import uk.veasmkii.component.Position;
 import uk.veasmkii.component.Size;
 import uk.veasmkii.component.Title;
 import uk.veasmkii.component.Velocity;
-import uk.veasmkii.component.tag.Player;
 import uk.veasmkii.entity.EntityFactory;
 import uk.veasmkii.systems.TickSystem;
 
@@ -25,10 +25,10 @@ import com.artemis.managers.TagManager;
 
 public class InputSystem extends TickSystem {
 
-	@Mapper ComponentMapper<Movement> dm;
-	@Mapper ComponentMapper<Coordinate> cm;
-	@Mapper ComponentMapper<Velocity> vm;
-	@Mapper ComponentMapper<Position> pm;
+	@Mapper private ComponentMapper<Movement> dm;
+	@Mapper private ComponentMapper<Coordinate> cm;
+	@Mapper private ComponentMapper<Velocity> vm;
+	@Mapper private ComponentMapper<Position> pm;
 
 	@SuppressWarnings( "unchecked" )
 	public InputSystem( final GameContainer container ) {
@@ -46,7 +46,7 @@ public class InputSystem extends TickSystem {
 				"res/sprite/germania.png" );
 
 		sprite.getComponent( Coordinate.class ).setCoordinates( 5, 5 );
-		sprite.getComponent( Title.class ).setName( "Helena" );
+		sprite.getComponent( Title.class ).setName( "You" );
 		sprite.getComponent( Health.class ).setHealth( 30 );
 		sprite.getComponent( Health.class ).setMaximumHealth( 100 );
 
@@ -110,7 +110,7 @@ public class InputSystem extends TickSystem {
 			final Entity entity = EntityFactory.createBullet( world );
 			entity.getComponent( Velocity.class ).setVelocity( 0.250F, 0.250F );
 			entity.addToWorld();
-			world.getManager( TagManager.class ).getEntity( "HELENA" )
+			world.getManager( TagManager.class ).getEntity( "You" )
 					.getComponent( Health.class ).addDamage( 10 );
 		}
 

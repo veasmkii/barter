@@ -13,6 +13,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import uk.veasmkii.component.Coordinate;
+import uk.veasmkii.component.Tile;
+import uk.veasmkii.component.Tile.Biome;
 import uk.veasmkii.component.Title;
 import uk.veasmkii.entity.EntityFactory;
 import uk.veasmkii.systems.ExpirySystem;
@@ -42,7 +44,6 @@ public class Play extends BasicGameState {
 	public void init( final GameContainer container, final StateBasedGame game )
 			throws SlickException {
 
-		System.out.println( "Game initialised" );
 		world = new World();
 
 		world.setManager( new GroupManager() );
@@ -59,12 +60,39 @@ public class Play extends BasicGameState {
 		world.setSystem( new InputSystem( container ) );
 		world.setSystem( new VelocitySystem( container ) );
 
-		loadPlayers();
+		createEntities();
 
 		world.initialize();
 	}
 
-	private void loadPlayers() {
+	private void createEntities() {
+		world.getSystem( CoordinatePositioningSystem.class ).setTiles(
+				createMap() );
+		createRandomPlayers();
+	}
+
+	private Entity[][] createMap() {
+		final Random random = new Random();
+		final Biome[] biomes = Biome.values();
+
+		final int rows = 10, columns = 10;
+		final Entity[][] tiles = new Entity[columns][rows];
+		for ( int x = 0; x < columns; x++ ) {
+			final Biome biome = biomes[random.nextInt( biomes.length )];
+			for ( int y = 0; y < rows; y++ ) {
+
+				final Entity tile = tiles[x][y] = EntityFactory
+						.createTile( world );
+				tile.getComponent( Tile.class ).setBiome( biome );
+				tile.getComponent( Coordinate.class ).setCoordinates( x, y );
+				tile.addToWorld();
+
+			}
+		}
+		return tiles;
+	}
+
+	private void createRandomPlayers() {
 
 		final Random random = new Random();
 
@@ -77,9 +105,9 @@ public class Play extends BasicGameState {
 							"res/sprite/tidus.png" );
 					sprite.getComponent( Coordinate.class ).setCoordinates( x,
 							y );
-
-					sprite.getComponent( Title.class ).setName( "Tidus" );
+					sprite.getComponent( Title.class ).setName( "Player" );
 					sprite.addToWorld();
+
 				}
 	}
 

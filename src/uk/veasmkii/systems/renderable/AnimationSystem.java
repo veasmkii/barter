@@ -17,11 +17,11 @@ import com.artemis.annotations.Mapper;
 
 public class AnimationSystem extends TickSystem {
 
-	@Mapper ComponentMapper<Sprite> spm;
-	@Mapper ComponentMapper<Imageable> im;
-	@Mapper ComponentMapper<Movement> mm;
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Size> sm;
+	@Mapper private ComponentMapper<Sprite> spm;
+	@Mapper private ComponentMapper<Imageable> im;
+	@Mapper private ComponentMapper<Movement> mm;
+	@Mapper private ComponentMapper<Position> pm;
+	@Mapper private ComponentMapper<Size> sm;
 
 	@SuppressWarnings( "unchecked" )
 	public AnimationSystem( final GameContainer container ) {

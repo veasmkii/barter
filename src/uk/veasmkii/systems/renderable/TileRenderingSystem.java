@@ -13,7 +13,8 @@ import org.newdawn.slick.geom.Shape;
 import uk.veasmkii.component.Coordinate;
 import uk.veasmkii.component.Position;
 import uk.veasmkii.component.Size;
-import uk.veasmkii.component.tag.Tile;
+import uk.veasmkii.component.Tile;
+import uk.veasmkii.component.Tile.Biome;
 import uk.veasmkii.systems.TickSystem;
 
 import com.artemis.Aspect;
@@ -24,9 +25,10 @@ import com.artemis.managers.TagManager;
 
 public class TileRenderingSystem extends TickSystem {
 
-	@Mapper ComponentMapper<Coordinate> cm;
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Size> sm;
+	@Mapper private ComponentMapper<Coordinate> cm;
+	@Mapper private ComponentMapper<Position> pm;
+	@Mapper private ComponentMapper<Size> sm;
+	@Mapper private ComponentMapper<Tile> tm;
 
 	@SuppressWarnings( "unchecked" )
 	public TileRenderingSystem( final GameContainer container ) {
@@ -36,16 +38,16 @@ public class TileRenderingSystem extends TickSystem {
 
 	@Override
 	public void process( final GameContainer container, final Entity e ) {
+		final Tile tile = tm.get( e );
+
+		if ( tile.getBiome() == Biome.NULL )
+			return;
+
 		final Size size = sm.get( e );
 		final Position position = pm.get( e );
-		final Coordinate coordinates = cm.get( e );
+		final Coordinate coordinate = cm.get( e );
 
 		final Graphics g = container.getGraphics();
-
-		final Coordinate playerCoordinate = world.getManager( TagManager.class )
-				.getEntity( "HELENA" ).getComponent( Coordinate.class );
-
-		final boolean highlight = coordinates.equals( playerCoordinate );
 
 		final Shape shape = isIsometric() ? drawIsometric( size )
 				: drawGrid( size );
@@ -53,16 +55,28 @@ public class TileRenderingSystem extends TickSystem {
 		shape.setX( position.getX() );
 		shape.setY( position.getY() );
 
+		g.setColor( tile.getBiome().getColor() );
+		g.fill( shape );
+		g.setColor( Color.darkGray );
+		g.draw( shape );
+
+		processHighlight( g, coordinate, shape );
+
+	}
+
+	private void processHighlight( final Graphics g,
+			final Coordinate coordinate, final Shape shape ) {
+		final Coordinate playerCoordinate = world.getManager( TagManager.class )
+				.getEntity( "You" ).getComponent( Coordinate.class );
+
+		final boolean highlight = coordinate.equals( playerCoordinate );
 		final boolean hasMouse = shape.contains( Mouse.getX(), Mouse.getY() );
 
 		final Color color = hasMouse ? Color.white
 				: highlight ? Color.lightGray : Color.darkGray;
 
-		g.setColor( Color.green );
-		g.fill( shape );
 		g.setColor( color );
 		g.draw( shape );
-
 	}
 
 	private Shape drawGrid( final Size size ) {

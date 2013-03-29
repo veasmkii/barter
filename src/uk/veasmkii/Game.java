@@ -15,15 +15,13 @@ public class Game extends StateBasedGame {
 	public static void main( final String[] args ) {
 
 		try {
-			final AppGameContainer container = new AppGameContainer( new Game(
-					name ) );
-			// container.setDisplayMode( 640, 360, false );
-			// container.setDisplayMode( 1024, 768, false );
-			// container.setDisplayMode( 2960, 1050, false );
-			container.setSmoothDeltas( true );
-			container.setVSync( true );
-			container.setAlwaysRender( true );
-			container.start();
+			final AppGameContainer gameContainer = new AppGameContainer(
+					new Game( name ) );
+			// container.setDisplayMode( 640, 480, false );
+			gameContainer.setSmoothDeltas( true );
+			gameContainer.setVSync( true );
+			gameContainer.setAlwaysRender( true );
+			gameContainer.start();
 		} catch ( final SlickException e ) {
 			e.printStackTrace();
 		}

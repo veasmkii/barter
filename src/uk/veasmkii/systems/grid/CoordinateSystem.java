@@ -17,8 +17,8 @@ import com.artemis.annotations.Mapper;
 
 public class CoordinateSystem extends TickSystem {
 
-	@Mapper ComponentMapper<Coordinate> cm;
-	@Mapper ComponentMapper<Movement> mm;
+	@Mapper private ComponentMapper<Coordinate> cm;
+	@Mapper private ComponentMapper<Movement> mm;
 
 	@SuppressWarnings( "unchecked" )
 	public CoordinateSystem( final GameContainer container ) {
