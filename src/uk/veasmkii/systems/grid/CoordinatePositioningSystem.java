@@ -39,16 +39,10 @@ public class CoordinatePositioningSystem extends TickSystem {
 				Position.class, Size.class ) );
 	}
 
-	private int calculateTotalWidth() {
-		return 0;
-	}
-
-	private int calculateTotalHeight() {
-		return 0;
-	}
-
 	@Override
 	public void process( final GameContainer container, final Entity e ) {
+		final int centerX = ( container.getWidth() / 2 - calculateTotalWidth() ) / 2;
+		final int centerY = ( container.getHeight() - calculateTotalHeight() );
 
 		final Position position = pm.get( e );
 		final Coordinate coordinate = cm.get( e );
@@ -58,8 +52,8 @@ public class CoordinatePositioningSystem extends TickSystem {
 		final Point desiredPoint = ( isIsometric() ) ? createIsometric(
 				coordinate, size ) : createGrid( coordinate, size );
 
-		desiredPoint.setX( desiredPoint.getX() );
-		desiredPoint.setY( desiredPoint.getY() );
+		desiredPoint.setX( desiredPoint.getX() - centerX );
+		desiredPoint.setY( desiredPoint.getY() + centerY / 2 );
 
 		if ( ( movement != null ) && !movement.getExpiry().isExpired() )
 			moveTowardsPositon( position, desiredPoint );
@@ -68,11 +62,20 @@ public class CoordinatePositioningSystem extends TickSystem {
 
 	}
 
+	private int calculateTotalWidth() {
+		return tiles.length * Tile.TILE_WIDTH;
+	}
+
+	private int calculateTotalHeight() {
+		return tiles.length * Tile.TILE_HEIGHT;
+	}
+
+	// FIXME Needs to move to desired location under time
 	private void moveTowardsPositon( final Position position,
 			final Point desiredPoint ) {
 
 		if ( position.getX() < desiredPoint.getX() )
-			position.addX( 1 * 3 );
+			position.addX( 1 + world.getDelta() * .6F);
 		else if ( position.getX() > desiredPoint.getX() )
 			position.addX( -1 * 3 );
 

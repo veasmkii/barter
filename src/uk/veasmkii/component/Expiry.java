@@ -1,13 +1,12 @@
 package uk.veasmkii.component;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import com.artemis.Component;
 
 public class Expiry extends Component {
 
-	@Getter @Setter private float duration = 0;
+	@Getter private float duration = 0, durationRemaining = 0;
 
 	public Expiry() {}
 
@@ -15,16 +14,21 @@ public class Expiry extends Component {
 		setDuration( duration );
 	}
 
-	public void reduceDuration( final float duration ) {
-		if ( ( this.duration - duration ) < 0 ) {
-			this.duration = 0;
+	public void setDuration( final float duration ) {
+		this.duration = duration;
+		this.durationRemaining = this.duration;
+	}
+
+	public void reduceDuration( final float delta ) {
+		if ( ( this.durationRemaining - delta ) < 0 ) {
+			this.durationRemaining = 0;
 			return;
 		}
-		this.duration -= duration;
+		this.durationRemaining -= delta;
 	}
 
 	public boolean isExpired() {
-		return duration <= 0;
+		return durationRemaining <= 0;
 	}
 
 }
