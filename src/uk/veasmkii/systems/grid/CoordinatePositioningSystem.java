@@ -74,20 +74,33 @@ public class CoordinatePositioningSystem extends TickSystem {
 	private void moveTowardsPositon( final Expiry expiry,
 			final Position position, final Point desiredPoint ) {
 
-		final float duration = expiry.getDurationDelta();
+		if ( position.getX() != desiredPoint.getX() )
+			position.addX( calculateMovement( position.getX(),
+					desiredPoint.getX(), expiry.getDuration() ) );
 
-		if ( position.getX() != desiredPoint.getX() ) {
-			final float distanceX = position.getX() - desiredPoint.getX();
-			final float movementX = ( distanceX / duration ) * world.getDelta();
-			position.addX( -movementX );
-		}
-		if ( position.getY() != desiredPoint.getY() ) {
-			final float distanceY = position.getY() - desiredPoint.getY();
-			final float movementY = ( distanceY / duration ) * world.getDelta();
-			position.addY( -movementY );
-		}
+		if ( position.getY() != desiredPoint.getY() )
+			position.addY( calculateMovement( position.getY(),
+					desiredPoint.getY(), expiry.getDuration() ) );
 
 		position.setPosition( position.getX(), position.getY() );
+	}
+
+	/**
+	 * Calculates the required movement in a single direction.
+	 * 
+	 * @param position
+	 *            in pixels
+	 * @param desiredPosition
+	 *            in pixels
+	 * @param duration
+	 *            total movement duration
+	 * @return amount to move
+	 */
+	private float calculateMovement( final float position,
+			final float desiredPosition, final float duration ) {
+		final float distance = position - desiredPosition;
+		final float movement = ( distance / duration ) * world.getDelta();
+		return -movement;
 	}
 
 	private Point createIsometric( final Coordinate coordinate, final Size size ) {
