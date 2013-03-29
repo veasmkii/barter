@@ -6,7 +6,7 @@ import com.artemis.Component;
 
 public class Expiry extends Component {
 
-	@Getter private float duration = 0, durationRemaining = 0;
+	@Getter private float durationDelta = 0, durationRemainingDeta = 0;
 
 	public Expiry() {}
 
@@ -15,20 +15,20 @@ public class Expiry extends Component {
 	}
 
 	public void setDuration( final float duration ) {
-		this.duration = duration;
-		this.durationRemaining = this.duration;
+		this.durationDelta = duration;
+		this.durationRemainingDeta = this.durationDelta;
 	}
 
 	public void reduceDuration( final float delta ) {
-		if ( ( this.durationRemaining - delta ) < 0 ) {
-			this.durationRemaining = 0;
+		if ( ( this.durationRemainingDeta - delta ) < 0 ) {
+			this.durationRemainingDeta = 0;
 			return;
 		}
-		this.durationRemaining -= delta;
+		this.durationRemainingDeta -= delta;
 	}
 
 	public boolean isExpired() {
-		return durationRemaining <= 0;
+		return durationRemainingDeta <= 0;
 	}
 
 }
