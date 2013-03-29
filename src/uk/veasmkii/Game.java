@@ -10,7 +10,7 @@ import uk.veasmkii.states.Play;
 
 public class Game extends StateBasedGame {
 
-	public static final String name = "JDice";
+	public static final String name = "Barter";
 
 	public static void main( final String[] args ) {
 
