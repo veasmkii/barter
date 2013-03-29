@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="staggered" width="20" height="20" tilewidth="50" tileheight="25">
+ <tileset firstgid="1" name="green" tilewidth="50" tileheight="25">
+  <image source="isometric_green.png" width="50" height="25"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDGbAOATMZESiqWE2LcyjllnoZlLTvKEGAByQAA8=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFQwUw4sGj5lHHPFLMJ8U8Yswk1jxiAbXNGwWjAB0AANqAAEA=
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAcMFLBDGSzBqt5jAyD0zxGBuq6Dd08arqPGmAwxgGtzRwFo2AwAgCLWAAg
+  </data>
+ </layer>
+</map>
