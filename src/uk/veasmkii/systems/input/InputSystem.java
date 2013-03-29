@@ -1,7 +1,9 @@
 package uk.veasmkii.systems.input;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
 import uk.veasmkii.component.Coordinate;
 import uk.veasmkii.component.Expiry;
@@ -34,6 +36,8 @@ public class InputSystem extends TickSystem {
 		super( container, Aspect.getAspectForAll( Coordinate.class, Size.class,
 				Position.class, Imageable.class, Player.class ) );
 	}
+
+	private final Expiry expiry = new Expiry();
 
 	@Override
 	public void process( final GameContainer container, final Entity e ) {
@@ -68,17 +72,27 @@ public class InputSystem extends TickSystem {
 		return null;
 	}
 
-	private final Expiry expiry = new Expiry();
-
 	private void handleKeys( final Input input, final Coordinate coordinate,
 			final Movement movement ) {
 
 		handleMovement( input, movement );
 
-		// Bullet
+		// Polygon
 		if ( input.isKeyDown( Input.KEY_1 ) ) {
-			final Entity entity = EntityFactory.createBullet( world );
+			final Entity entity = EntityFactory.createPolygon( world );
 			entity.getComponent( Velocity.class ).setVelocity( 0.250F, 0.250F );
+			entity.addToWorld();
+		}
+
+		// Particle Effect
+		if ( input.isKeyDown( Input.KEY_2 ) ) {
+			Image image = null;
+			try {
+				image = new Image( "res/particle/torch.png" );
+			} catch ( SlickException e ) {
+				e.printStackTrace();
+			}
+			final Entity entity = EntityFactory.createParticle( world, image );
 			entity.addToWorld();
 		}
 
