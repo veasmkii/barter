@@ -1,4 +1,4 @@
-barter
+Barter Project
 ======
 
 Game development project aimed at creating a trade based MMO.
