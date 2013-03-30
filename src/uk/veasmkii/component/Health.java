@@ -1,6 +1,7 @@
 package uk.veasmkii.component;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import com.artemis.Component;
 
@@ -8,6 +9,12 @@ public class Health extends Component {
 
 	@Getter private int maximumHealth = 0;
 	@Getter private int health = 0;
+	/*
+	 * FIXME I don't know why the delta wont accept millis directly in the
+	 * HealingSystem.
+	 */
+	@Getter @Setter private int damageCooldownDelta = 5000 / 100;
+	@Getter private Expiry damageCooldown = new Expiry();
 
 	public Health() {}
 
@@ -38,12 +45,18 @@ public class Health extends Component {
 
 	public void addHealth( final int health ) {
 		final int tempHealth = this.health + health;
+		if ( tempHealth < this.health )
+			damageCooldown.setDuration( damageCooldownDelta );
 		if ( tempHealth > maximumHealth )
 			this.health = maximumHealth;
 		else if ( tempHealth < 0 )
 			this.health = 0;
 		else
 			this.health = tempHealth;
+	}
+
+	public boolean recentlyDamaged() {
+		return !damageCooldown.isExpired();
 	}
 
 	public void reset() {
