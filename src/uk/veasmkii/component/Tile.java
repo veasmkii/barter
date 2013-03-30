@@ -14,12 +14,12 @@ public class Tile extends Component {
 	@Getter @Setter Biome biome = Biome.NULL;
 
 	public static enum Biome {
-		NULL( Color.gray ),
 		WATER( Color.blue ),
 		GRASS( Color.green ),
 		MEADOW( Color.green.darker() ),
 		DESERT( Color.orange ),
-		FOREST( Color.green.darker().darker() );
+		FOREST( Color.green.darker().darker() ),
+		NULL( Color.gray );
 
 		@Getter private final Color color;
 
