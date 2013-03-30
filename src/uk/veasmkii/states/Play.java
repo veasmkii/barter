@@ -71,7 +71,7 @@ public class Play extends BasicGameState {
 	private void createEntities() {
 		world.getSystem( CoordinatePositioningSystem.class ).setTiles(
 				createMap() );
-//		createRandomPlayers();
+		// createRandomPlayers();
 		createYou();
 	}
 
@@ -82,7 +82,8 @@ public class Play extends BasicGameState {
 		final int rows = 10, columns = 10;
 		final Entity[][] tiles = new Entity[columns][rows];
 		for ( int x = 0; x < columns; x++ ) {
-			final Biome biome = biomes[random.nextInt( biomes.length )];
+			// excluding null biome
+			final Biome biome = biomes[random.nextInt( biomes.length - 1 )];
 			for ( int y = 0; y < rows; y++ ) {
 
 				final Entity tile = tiles[x][y] = EntityFactory
