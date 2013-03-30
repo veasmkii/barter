@@ -44,7 +44,7 @@ public class CoordinatePositioningSystem extends TickSystem {
 	@Override
 	public void process( final GameContainer container, final Entity e ) {
 		final int centerX = ( container.getWidth() - calculateTotalWidth() ) / 2;
-		final int centerY = (int) ( ( container.getHeight() - calculateTotalHeight() ) / 2 );
+		final int centerY = ( container.getHeight() - calculateTotalHeight() ) / 2;
 
 		final Position position = pm.get( e );
 		final Coordinate coordinate = cm.get( e );

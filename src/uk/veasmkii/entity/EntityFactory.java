@@ -111,8 +111,8 @@ public class EntityFactory {
 
 	public static Entity createParticle( final World world, final Image image ) {
 		final Entity entity = world.createEntity();
-		final ParticleSystem system = new ParticleSystem( image, 1000 );
-//		 entity.addComponent( new Spart )
+		new ParticleSystem( image, 1000 );
+		// entity.addComponent( new Spart )
 		return entity;
 	}
 

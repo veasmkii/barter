@@ -13,12 +13,12 @@ public class HealingSystem extends IntervalEntityProcessingSystem {
 	@Mapper private ComponentMapper<Health> hm;
 
 	@SuppressWarnings( "unchecked" )
-	public HealingSystem( float interval ) {
+	public HealingSystem( final float interval ) {
 		super( Aspect.getAspectForAll( Health.class ), interval );
 	}
 
 	@Override
-	protected void process( Entity e ) {
+	protected void process( final Entity e ) {
 		final Health health = hm.get( e );
 		health.getDamageCooldown().reduceDuration( world.getDelta() );
 

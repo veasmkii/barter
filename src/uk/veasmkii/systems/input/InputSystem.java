@@ -89,7 +89,7 @@ public class InputSystem extends TickSystem {
 			Image image = null;
 			try {
 				image = new Image( "res/particle/torch.png" );
-			} catch ( SlickException e ) {
+			} catch ( final SlickException e ) {
 				e.printStackTrace();
 			}
 			final Entity entity = EntityFactory.createParticle( world, image );

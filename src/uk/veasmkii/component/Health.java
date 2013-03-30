@@ -14,7 +14,7 @@ public class Health extends Component {
 	 * HealingSystem.
 	 */
 	@Getter @Setter private int damageCooldownDelta = 5000 / 100;
-	@Getter private Expiry damageCooldown = new Expiry();
+	@Getter private final Expiry damageCooldown = new Expiry();
 
 	public Health() {}
 

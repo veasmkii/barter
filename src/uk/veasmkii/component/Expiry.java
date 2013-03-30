@@ -16,15 +16,15 @@ public class Expiry extends Component {
 
 	public void setDuration( final float duration ) {
 		this.duration = duration;
-		this.durationRemaining = this.duration;
+		durationRemaining = this.duration;
 	}
 
 	public void reduceDuration( final float delta ) {
-		if ( ( this.durationRemaining - delta ) < 0 ) {
-			this.durationRemaining = 0;
+		if ( ( durationRemaining - delta ) < 0 ) {
+			durationRemaining = 0;
 			return;
 		}
-		this.durationRemaining -= delta;
+		durationRemaining -= delta;
 	}
 
 	public boolean isExpired() {
