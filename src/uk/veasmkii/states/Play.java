@@ -18,9 +18,11 @@ import uk.veasmkii.component.Tile;
 import uk.veasmkii.component.Tile.Biome;
 import uk.veasmkii.component.Title;
 import uk.veasmkii.entity.EntityFactory;
+import uk.veasmkii.systems.DamageSystem;
 import uk.veasmkii.systems.ExpirySystem;
 import uk.veasmkii.systems.VelocitySystem;
 import uk.veasmkii.systems.grid.CoordinatePositioningSystem;
+import uk.veasmkii.systems.grid.CoordinateSystem;
 import uk.veasmkii.systems.grid.MovementSystem;
 import uk.veasmkii.systems.input.InputSystem;
 import uk.veasmkii.systems.interval.HealingSystem;
@@ -57,11 +59,13 @@ public class Play extends BasicGameState {
 
 		world.setSystem( new ExpirySystem( container ) );
 		world.setSystem( new AnimationSystem( container ) );
+		world.setSystem( new CoordinateSystem( container ) );
 		world.setSystem( new CoordinatePositioningSystem( container ) );
 		world.setSystem( new MovementSystem( container ) );
 		world.setSystem( new InputSystem( container ) );
 		world.setSystem( new VelocitySystem( container ) );
 		world.setSystem( new HealingSystem( 1000 ) );
+		world.setSystem( new DamageSystem( container ) );
 
 		createEntities();
 
@@ -71,7 +75,7 @@ public class Play extends BasicGameState {
 	private void createEntities() {
 		world.getSystem( CoordinatePositioningSystem.class ).setTiles(
 				createMap() );
-		// createRandomPlayers();
+		 createRandomPlayers();
 		createYou();
 	}
 
