@@ -24,6 +24,9 @@ public class HealingSystem extends IntervalEntityProcessingSystem {
 
 		if ( !health.recentlyDamaged() )
 			health.addHealth( +10 );
+
+		if ( !health.isAlive() )
+			world.deleteEntity( e );
 	}
 
 }
