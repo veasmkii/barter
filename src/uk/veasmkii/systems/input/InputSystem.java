@@ -1,11 +1,12 @@
 package uk.veasmkii.systems.input;
 
+import java.util.List;
+
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 
 import uk.veasmkii.component.Coordinate;
+import uk.veasmkii.component.Damage;
 import uk.veasmkii.component.Expiry;
 import uk.veasmkii.component.Health;
 import uk.veasmkii.component.Imageable;
@@ -17,6 +18,7 @@ import uk.veasmkii.component.Size;
 import uk.veasmkii.component.Velocity;
 import uk.veasmkii.entity.EntityFactory;
 import uk.veasmkii.systems.TickSystem;
+import uk.veasmkii.systems.grid.CoordinatePositioningSystem;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -86,14 +88,7 @@ public class InputSystem extends TickSystem {
 
 		// Particle Effect
 		if ( input.isKeyDown( Input.KEY_2 ) ) {
-			Image image = null;
-			try {
-				image = new Image( "res/particle/torch.png" );
-			} catch ( final SlickException e ) {
-				e.printStackTrace();
-			}
-			final Entity entity = EntityFactory.createParticle( world, image );
-			entity.addToWorld();
+			doDamage();
 		}
 
 		// Damage
@@ -110,6 +105,47 @@ public class InputSystem extends TickSystem {
 					.getComponent( Health.class ).addHealth( +10 );
 		}
 
+	}
+
+	private void doDamage() {
+		final Entity you = world.getManager( TagManager.class ).getEntity(
+				"You" );
+
+		final Direction direction = you.getComponent( Movement.class )
+				.getDirection();
+		final Coordinate currentCoordinate = you
+				.getComponent( Coordinate.class );
+
+		final Coordinate damageCoordinate = calculateDamageCoordinate(
+				currentCoordinate, direction );
+
+		final List<Entity> entities = getTile( damageCoordinate ).getComponent(
+				Coordinate.class ).getEntities();
+
+		for ( final Entity entity : entities ) {
+			entity.addComponent( new Damage( 10 ) );
+			entity.changedInWorld();
+		}
+	}
+
+	private Entity getTile( final Coordinate coordinate ) {
+		return world.getSystem( CoordinatePositioningSystem.class ).getTiles()[coordinate
+				.getX()][coordinate.getY()];
+	}
+
+	private Coordinate calculateDamageCoordinate( final Coordinate coordinate,
+			final Direction direction ) {
+		final Coordinate damageCoordinate = new Coordinate( coordinate.getX(),
+				coordinate.getY() );
+		if ( direction == Direction.NORTH )
+			damageCoordinate.addY( -1 );
+		else if ( direction == Direction.SOUTH )
+			damageCoordinate.addY( +1 );
+		else if ( direction == Direction.EAST )
+			damageCoordinate.addX( +1 );
+		else if ( direction == Direction.WEST )
+			damageCoordinate.addX( -1 );
+		return damageCoordinate;
 	}
 
 	// FIXME prevent direction changing until movement is expired
