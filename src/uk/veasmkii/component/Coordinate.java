@@ -1,13 +1,27 @@
 package uk.veasmkii.component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
 import com.artemis.Component;
+import com.artemis.Entity;
 
 public class Coordinate extends Component {
 
 	@Getter @Setter private int x = -1, y = -1;
+
+	@Getter private List<Entity> entities = new ArrayList<>();
+
+	public void addEntity( final Entity entity ) {
+		entities.add( entity );
+	}
+
+	public boolean contains( final Entity entity ) {
+		return entities.contains( entity );
+	}
 
 	public Coordinate() {}
 
