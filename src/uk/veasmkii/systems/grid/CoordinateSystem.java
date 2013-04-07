@@ -1,5 +1,7 @@
 package uk.veasmkii.systems.grid;
 
+import static uk.veasmkii.systems.grid.CoordinatePositioningSystem.coordinateExists;
+
 import org.newdawn.slick.GameContainer;
 
 import uk.veasmkii.component.Coordinate;
@@ -26,7 +28,7 @@ public class CoordinateSystem extends TickSystem {
 		final Entity[][] tiles = world.getSystem(
 				CoordinatePositioningSystem.class ).getTiles();
 
-		if ( validCoordinate( coordinate, tiles ) ) {
+		if ( coordinateExists( coordinate, tiles ) ) {
 			final Entity tile = tiles[coordinate.getX()][coordinate.getY()];
 			final Coordinate tileCoord = tile.getComponent( Coordinate.class );
 			tileCoord.getEntities().clear();
@@ -34,21 +36,6 @@ public class CoordinateSystem extends TickSystem {
 				tileCoord.addEntity( e );
 		}
 
-	}
-
-	private boolean validCoordinate( final Coordinate coordinate,
-			final Entity[][] tiles ) {
-
-		final int x = coordinate.getX(), y = coordinate.getY();
-		if ( x < 0 )
-			return false;
-		else if ( y < 0 )
-			return false;
-		else if ( x > tiles.length - 1 )
-			return false;
-		else if ( y > tiles[x].length - 1 )
-			return false;
-		return true;
 	}
 
 }

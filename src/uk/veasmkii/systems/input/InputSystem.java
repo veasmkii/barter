@@ -1,5 +1,7 @@
 package uk.veasmkii.systems.input;
 
+import static uk.veasmkii.systems.grid.CoordinatePositioningSystem.coordinateExists;
+
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -119,18 +121,29 @@ public class InputSystem extends TickSystem {
 		final Coordinate damageCoordinate = calculateDamageCoordinate(
 				currentCoordinate, direction );
 
-		final List<Entity> entities = getTile( damageCoordinate ).getComponent(
-				Coordinate.class ).getEntities();
+		final Entity[][] tiles = world.getSystem(
+				CoordinatePositioningSystem.class ).getTiles();
 
-		for ( final Entity entity : entities ) {
-			entity.addComponent( new Damage( 10 ) );
-			entity.changedInWorld();
+		if ( CoordinatePositioningSystem.coordinateExists( damageCoordinate,
+				tiles ) ) {
+
+			final List<Entity> entities = getTile( damageCoordinate )
+					.getComponent( Coordinate.class ).getEntities();
+
+			for ( final Entity entity : entities ) {
+				entity.addComponent( new Damage( 10 ) );
+				entity.changedInWorld();
+			}
 		}
+
 	}
 
 	private Entity getTile( final Coordinate coordinate ) {
-		return world.getSystem( CoordinatePositioningSystem.class ).getTiles()[coordinate
-				.getX()][coordinate.getY()];
+		final Entity[][] tiles = world.getSystem(
+				CoordinatePositioningSystem.class ).getTiles();
+		if ( coordinateExists( coordinate, tiles ) )
+			return tiles[coordinate.getX()][coordinate.getY()];
+		return null;
 	}
 
 	private Coordinate calculateDamageCoordinate( final Coordinate coordinate,
@@ -141,7 +154,7 @@ public class InputSystem extends TickSystem {
 			damageCoordinate.addXY( 1, -1 );
 		else if ( direction == Direction.NORTH_WEST )
 			damageCoordinate.addXY( -1, -1 );
-		else if ( direction == Direction.SOUTH_EAST)
+		else if ( direction == Direction.SOUTH_EAST )
 			damageCoordinate.addXY( 1, 1 );
 		else if ( direction == Direction.SOUTH_WEST )
 			damageCoordinate.addXY( -1, 1 );

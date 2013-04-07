@@ -41,6 +41,24 @@ public class CoordinatePositioningSystem extends TickSystem {
 				Position.class, Size.class ) );
 	}
 
+	public boolean coordinatExists( final Coordinate coordinate ) {
+		return coordinateExists( coordinate, tiles );
+	}
+
+	public static boolean coordinateExists( final Coordinate coordinate,
+			final Entity[][] tiles ) {
+		final int x = coordinate.getX(), y = coordinate.getY();
+		if ( x < 0 )
+			return false;
+		else if ( y < 0 )
+			return false;
+		else if ( x > tiles.length - 1 )
+			return false;
+		else if ( y > tiles[x].length - 1 )
+			return false;
+		return true;
+	}
+
 	@Override
 	public void process( final GameContainer container, final Entity e ) {
 		final int centerX = ( container.getWidth() - calculateTotalWidth() ) / 2;
