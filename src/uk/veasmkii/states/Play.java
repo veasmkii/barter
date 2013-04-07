@@ -27,6 +27,7 @@ import uk.veasmkii.systems.grid.MovementSystem;
 import uk.veasmkii.systems.input.InputSystem;
 import uk.veasmkii.systems.interval.HealingSystem;
 import uk.veasmkii.systems.renderable.AnimationSystem;
+import uk.veasmkii.systems.renderable.DebugSystem;
 import uk.veasmkii.systems.renderable.DrawableSystem;
 import uk.veasmkii.systems.renderable.SpriteSystem;
 import uk.veasmkii.systems.renderable.TileRenderingSystem;
@@ -66,6 +67,7 @@ public class Play extends BasicGameState {
 		world.setSystem( new VelocitySystem( container ) );
 		world.setSystem( new HealingSystem( 1000 ) );
 		world.setSystem( new DamageSystem( container ) );
+		world.setSystem( new DebugSystem( container ) );
 
 		createEntities();
 
@@ -75,7 +77,7 @@ public class Play extends BasicGameState {
 	private void createEntities() {
 		world.getSystem( CoordinatePositioningSystem.class ).setTiles(
 				createMap() );
-		 createRandomPlayers();
+		createRandomPlayers();
 		createYou();
 	}
 
@@ -147,6 +149,7 @@ public class Play extends BasicGameState {
 		world.getSystem( TileRenderingSystem.class ).process();
 		world.getSystem( SpriteSystem.class ).process();
 		world.getSystem( DrawableSystem.class ).process();
+		world.getSystem( DebugSystem.class ).process();
 
 	}
 
