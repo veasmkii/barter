@@ -26,12 +26,29 @@ public class CoordinateSystem extends TickSystem {
 		final Entity[][] tiles = world.getSystem(
 				CoordinatePositioningSystem.class ).getTiles();
 
-		final Entity tile = tiles[coordinate.getX()][coordinate.getY()];
-		final Coordinate tileCoord = tile.getComponent( Coordinate.class );
-		tileCoord.getEntities().clear();
-		if ( !tileCoord.contains( e ) )
-			tileCoord.addEntity( e );
+		if ( validCoordinate( coordinate, tiles ) ) {
+			final Entity tile = tiles[coordinate.getX()][coordinate.getY()];
+			final Coordinate tileCoord = tile.getComponent( Coordinate.class );
+			tileCoord.getEntities().clear();
+			if ( !tileCoord.contains( e ) )
+				tileCoord.addEntity( e );
+		}
 
+	}
+
+	private boolean validCoordinate( final Coordinate coordinate,
+			final Entity[][] tiles ) {
+
+		final int x = coordinate.getX(), y = coordinate.getY();
+		if ( x < 0 )
+			return false;
+		else if ( y < 0 )
+			return false;
+		else if ( x > tiles.length - 1 )
+			return false;
+		else if ( y > tiles[x].length - 1 )
+			return false;
+		return true;
 	}
 
 }
