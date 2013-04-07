@@ -83,7 +83,7 @@ public class Play extends BasicGameState {
 		final Random random = new Random();
 		final Biome[] biomes = Biome.values();
 
-		final int rows = 10, columns = 10;
+		final int rows = 20, columns = 20;
 		final Entity[][] tiles = new Entity[columns][rows];
 		for ( int x = 0; x < columns; x++ ) {
 			// excluding null biome
@@ -105,8 +105,8 @@ public class Play extends BasicGameState {
 
 		final Random random = new Random();
 
-		for ( int x = 0; x < 10; x++ )
-			for ( int y = 0; y < 10; y++ )
+		for ( int x = 0; x < 20; x++ )
+			for ( int y = 0; y < 20; y++ )
 				if ( random.nextBoolean() && random.nextBoolean()
 						&& random.nextBoolean() ) {
 
