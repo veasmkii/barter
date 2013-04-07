@@ -23,8 +23,10 @@ public class DebugSystem extends VoidEntitySystem {
 		final Graphics g = container.getGraphics();
 		g.setColor( Color.white );
 
-		g.drawString( getMousePosition(), 10, 20 );
-		g.drawString( getPlayerCoordinate(), 10, 30 );
+		g.drawString( getMousePosition(), 10, 25 );
+		g.drawString( getPlayerCoordinate(), 10, 35 );
+		g.drawString( "KEY_1: Draw", 10, 55 );
+		g.drawString( "KEY_2: Attack", 10, 65 );
 	}
 
 	private String getMousePosition() {
