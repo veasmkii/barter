@@ -137,7 +137,15 @@ public class InputSystem extends TickSystem {
 			final Direction direction ) {
 		final Coordinate damageCoordinate = new Coordinate( coordinate.getX(),
 				coordinate.getY() );
-		if ( direction == Direction.NORTH )
+		if ( direction == Direction.NORTH_EAST )
+			damageCoordinate.addXY( 1, -1 );
+		else if ( direction == Direction.NORTH_WEST )
+			damageCoordinate.addXY( -1, -1 );
+		else if ( direction == Direction.SOUTH_EAST)
+			damageCoordinate.addXY( 1, 1 );
+		else if ( direction == Direction.SOUTH_WEST )
+			damageCoordinate.addXY( -1, 1 );
+		else if ( direction == Direction.NORTH )
 			damageCoordinate.addY( -1 );
 		else if ( direction == Direction.SOUTH )
 			damageCoordinate.addY( +1 );
