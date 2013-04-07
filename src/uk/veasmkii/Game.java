@@ -17,7 +17,8 @@ public class Game extends StateBasedGame {
 		try {
 			final AppGameContainer gameContainer = new AppGameContainer(
 					new Game( name ) );
-			// container.setDisplayMode( 640, 480, false );
+//			gameContainer.setDisplayMode( 640, 480, false );
+			gameContainer.setDisplayMode( 1024, 768, false );
 			gameContainer.setSmoothDeltas( true );
 			gameContainer.setVSync( true );
 			gameContainer.setAlwaysRender( true );
